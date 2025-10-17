@@ -7,18 +7,17 @@
   <meta name="description" content="Europe’s digital marketplace for precision cutting tools. Launching soon.">
   <meta name="robots" content="noindex, nofollow">
 
-  <!-- Social preview (absolute URL) -->
+  <!-- Social preview -->
   <meta property="og:title" content="EdgeVend — Launching Soon">
   <meta property="og:description" content="Europe’s digital marketplace for precision cutting tools.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://edge-vend.com/assets/edgevend-hero.webp">
+  <meta property="og:image" content="https://edgevend1.github.io/edge-vend.com/assets/edgevend-hero.webp">
   <meta name="theme-color" content="#0b0c10">
 
   <style>
     :root{
       --bg:#0b0c10; --panel:#0f1218; --fg:#eaf0f6; --muted:#a8b3c7; --accent:#4fc3f7;
       --ring:rgba(79,195,247,.35);
-      --hero:url('assets/edgevend-hero.webp'); /* wird per JS geprüft/angepasst */
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
@@ -36,24 +35,18 @@
       border:1px solid rgba(255,255,255,.08);
       box-shadow:0 18px 60px rgba(0,0,0,.55);
       background: var(--panel);
-      isolation:isolate;
     }
 
-    /* Bild als Background – kein alt-Text sichtbar, wenn eine Quelle fehlt */
-    .hero::before{
-      content:"";
-      position:absolute; inset:0;
-      background-image: var(--hero);
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1) contrast(1.05) brightness(1.02);
-      transform: scale(1.02);
-      z-index:-1;
+    /* Bild als <img> damit SEO/alt funktioniert */
+    .hero > img{
+      display:block; width:100%; height:auto;
+      filter:saturate(1) contrast(1.05) brightness(1.02);
+      background:linear-gradient(180deg,#0f1218,#0b0c10); /* hübscher Fallback */
     }
 
     .overlay{
       position:absolute; inset:0;
-      background: radial-gradient(80% 60% at 65% 45%, rgba(5,7,10,0) 0%, rgba(5,7,10,.2) 55%, rgba(5,7,10,.75) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.65) 90%);
       pointer-events:none;
     }
 
@@ -85,15 +78,13 @@
     @media (max-width:720px){
       .panel{position:static; margin: -100px 12px 0; border-radius:0 0 22px 22px}
     }
-
-    /* Fallback-Hinweis falls Bild gar nicht gefunden wird */
-    .no-hero .hero::before{display:none}
-    .no-hero .hero{background:linear-gradient(180deg,#0f1218,#0b0c10)}
   </style>
 </head>
 <body>
   <main class="hero" role="main" aria-label="EdgeVend under construction">
+    <img id="hero-img" alt="EdgeVend: precision cutting tool with metal chips and logo" decoding="async" fetchpriority="high">
     <div class="overlay" aria-hidden="true"></div>
+
     <section class="panel" role="region" aria-label="EdgeVend info">
       <span class="tag">Website under construction</span>
       <h1>EdgeVend</h1>
@@ -108,51 +99,40 @@
   <footer>© <span id="y"></span> EdgeVend. All rights reserved.</footer>
 
   <script>
-    // Robustes Laden des Hero-Bildes mit mehreren Kandidatenpfaden.
+    // Mehrstufiges, cache-busting Fallback-Loading für das Hero-Bild
     (function(){
-      const yearEl = document.getElementById('y');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-
+      document.getElementById('y').textContent = new Date().getFullYear();
+      const v = Date.now(); // Cache-Buster
+      const origin = location.origin.replace(/\/$/, '');
       const onGh = location.hostname.endsWith('github.io');
-      const baseGh = '/edge-vend.com/';
+
       const candidates = [
-        // bevorzugt: Assets-Ordner
+        // 1) Absolute GitHub-Projekt-URL (funktioniert immer, wenn Repo public ist)
+        'https://edgevend1.github.io/edge-vend.com/assets/edgevend-hero.webp',
+        // 2) Custom-Domain-Variante (wenn /assets im Root liegt)
+        origin + '/assets/edgevend-hero.webp',
+        // 3) Relative Pfade
         'assets/edgevend-hero.webp',
         './assets/edgevend-hero.webp',
-        '/assets/edgevend-hero.webp',
-        // GitHub Project Page Pfad
-        (onGh ? baseGh : '/') + 'assets/edgevend-hero.webp',
-        // ganz zur Not (falls Bild im Root liegt)
+        '/edgevend-hero.webp',
         'edgevend-hero.webp',
-        './edgevend-hero.webp',
-        '/edgevend-hero.webp'
+        // 4) Falls Project Page ohne Slash geladen wurde, konstruiere den Pfad
+        (onGh ? '/edge-vend.com/assets/edgevend-hero.webp' : '/assets/edgevend-hero.webp')
       ];
 
-      function test(url){
-        return new Promise(resolve => {
-          const img = new Image();
-          img.onload = () => resolve(url);
-          img.onerror = () => resolve(null);
-          img.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now();
-        });
-      }
+      const img = document.getElementById('hero-img');
 
-      (async ()=>{
-        for (const url of candidates){
-          const ok = await test(url);
-          if (ok){
-            document.documentElement.style.setProperty('--hero', `url('${ok}')`);
-            return;
-          }
-        }
-        // Kein Treffer -> dezenter Fallback ohne Bild
-        document.body.classList.add('no-hero');
-      })();
+      function tryNext(i){
+        if (i >= candidates.length) return; // Fallback-Hintergrund bleibt
+        img.src = candidates[i] + (candidates[i].includes('?') ? '&' : '?') + 'v=' + v;
+        img.onerror = function(){ tryNext(i+1); };
+      }
+      tryNext(0);
     })();
   </script>
 
   <noscript>
-    <style>.hero::before{display:none}.hero{background:#0f1218}</style>
+    <style>.hero{background:#0f1218}</style>
   </noscript>
 </body>
 </html>
