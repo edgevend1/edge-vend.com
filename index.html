@@ -6,121 +6,150 @@
   <title>EdgeVend — Under Construction</title>
   <meta name="description" content="Europe’s digital marketplace for precision cutting tools. Launching soon.">
   <meta name="robots" content="noindex, nofollow">
-  <!-- Open Graph -->
-  <meta property="og:title" content="EdgeVend — Launching soon">
+
+  <!-- Open Graph / Social preview -->
+  <meta property="og:title" content="EdgeVend — Launching Soon">
   <meta property="og:description" content="Europe’s digital marketplace for precision cutting tools.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="/assets/edgevend-hero.webp">
+  <meta property="og:image" content="https://edgevend1.github.io/edge-vend.com/assets/edgevend-hero.webp">
   <meta name="theme-color" content="#0b0c10">
+
   <style>
     :root {
-      --bg:#0b0c10; --panel:#11141a; --fg:#eaf0f6; --muted:#a8b3c7; --accent:#4fc3f7;
+      --bg: #0b0c10;
+      --panel: #11141a;
+      --fg: #eaf0f6;
+      --muted: #a8b3c7;
+      --accent: #4fc3f7;
       --ring: rgba(79,195,247,.35);
     }
+
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    html, body { height: 100%; margin: 0; padding: 0; }
     body {
-      margin:0;
-      background: var(--bg);
-      color: var(--fg);
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    .wrap {
-      min-height: 100%;
-      display: grid;
-      grid-template-rows: 1fr auto;
-    }
-    header {
-      position: relative;
-      display: grid;
+      background-color: var(--bg);
+      color: var(--fg);
+      display: flex;
       align-items: center;
-      justify-items: center;
-      padding: clamp(24px, 4vw, 48px);
-      overflow: hidden;
+      justify-content: center;
+      flex-direction: column;
     }
+
     .hero {
-      width: min(1200px, 95vw);
       position: relative;
-      border-radius: 20px;
+      width: min(1200px, 95vw);
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.06);
-      background: #0f1218;
+      box-shadow: 0 10px 40px rgba(0,0,0,.6);
+      border: 1px solid rgba(255,255,255,.08);
     }
+
     .hero img {
+      display: block;
       width: 100%;
       height: auto;
-      display: block;
-      filter: saturate(.95) contrast(1.02);
+      filter: saturate(1) contrast(1.05) brightness(1.02);
     }
+
     .overlay {
-      position: absolute; inset: 0;
-      background: radial-gradient(90% 70% at 60% 40%, rgba(15,18,24,0) 0%, rgba(15,18,24,0) 40%, rgba(15,18,24,.45) 65%, rgba(15,18,24,.85) 100%);
-      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.65) 90%);
     }
+
     .panel {
-      position: absolute; right: clamp(12px, 4vw, 32px); bottom: clamp(12px, 4vw, 32px);
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(6px);
+      position: absolute;
+      bottom: clamp(24px, 5vw, 60px);
+      left: clamp(24px, 5vw, 60px);
+      background: rgba(10, 10, 10, 0.65);
+      backdrop-filter: blur(8px);
       border-radius: 16px;
-      padding: clamp(14px, 2.4vw, 18px) clamp(16px, 2.6vw, 22px);
-      max-width: min(520px, 88vw);
-      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      padding: 24px 32px;
+      border: 1px solid rgba(255,255,255,.15);
+      max-width: 480px;
     }
-    h1 { margin: 0 0 6px; font-size: clamp(22px, 3.5vw, 32px); letter-spacing: .4px; }
-    p.lead { margin: 0; color: var(--muted); font-size: clamp(14px, 2.2vw, 18px); }
+
     .tag {
-      display: inline-block; margin: 0 0 10px; font-size: 12px; color: var(--muted);
-      border:1px solid rgba(255,255,255,.16); padding: 6px 10px; border-radius: 999px;
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.2);
+      margin-bottom: 12px;
     }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      letter-spacing: 0.4px;
+    }
+
+    p.lead {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
     .row {
-      display:flex; gap:10px; flex-wrap: wrap; margin-top: 14px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
+
     a.btn {
-      text-decoration: none; color: var(--fg);
-      padding: 10px 12px; border-radius: 12px;
-      border:1px solid rgba(255,255,255,.16);
-      display: inline-flex; align-items: center; gap: 8px;
-      transition: transform .06s ease, border-color .2s ease, box-shadow .2s ease;
+      text-decoration: none;
+      color: var(--fg);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px;
+      padding: 10px 16px;
+      transition: all 0.15s ease;
     }
-    a.btn:focus-visible, a.btn:hover {
+
+    a.btn:hover {
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px var(--ring);
+      color: var(--accent);
       transform: translateY(-1px);
     }
+
     footer {
-      padding: 18px 24px; color: var(--muted); text-align: center; font-size: 13px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
     }
-    .sr-only {
-      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+
+    @media (max-width: 700px) {
+      .panel {
+        position: static;
+        margin-top: -100px;
+        border-radius: 0 0 18px 18px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="hero">
-        <img src="/assets/edgevend-hero.webp" width="1600" height="1067" alt="EdgeVend: precision end mill with chips and logo">
-        <div class="overlay" aria-hidden="true"></div>
-        <div class="panel" role="region" aria-label="EdgeVend info">
-          <span class="tag">Website under construction</span>
-          <h1>EdgeVend</h1>
-          <p class="lead">Europe’s digital marketplace for precision cutting tools. Launching soon.</p>
-          <div class="row">
-            <a class="btn" href="mailto:info@edge-vend.com" aria-label="Contact EdgeVend by email">✉️ Contact</a>
-            <a class="btn" href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="Follow EdgeVend on LinkedIn">in Follow on LinkedIn</a>
-          </div>
-        </div>
+  <div class="hero">
+    <img src="assets/edgevend-hero.webp" alt="EdgeVend: precision cutting tool with metal chips and logo">
+    <div class="overlay"></div>
+
+    <div class="panel">
+      <div class="tag">Website under construction</div>
+      <h1>EdgeVend</h1>
+      <p class="lead">Europe’s digital marketplace for precision cutting tools.<br>Launching soon.</p>
+      <div class="row">
+        <a class="btn" href="mailto:info@edge-vend.com">✉️ Contact</a>
+        <a class="btn" href="https://www.linkedin.com/company/edgevend" target="_blank" rel="noopener">in Follow on LinkedIn</a>
       </div>
-    </header>
-    <footer>
-      © 2025 EdgeVend. All rights reserved.
-    </footer>
+    </div>
   </div>
+
+  <footer>© <span id="year"></span> EdgeVend. All rights reserved.</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
