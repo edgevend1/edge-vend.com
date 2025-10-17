@@ -7,11 +7,11 @@
   <meta name="description" content="Europe’s digital marketplace for precision cutting tools. Launching soon.">
   <meta name="robots" content="noindex, nofollow">
 
-  <!-- Social preview: absolute URL funktioniert immer (auch bei Custom Domain) -->
+  <!-- Social preview -->
   <meta property="og:title" content="EdgeVend — Launching Soon">
   <meta property="og:description" content="Europe’s digital marketplace for precision cutting tools.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://edgevend1.github.io/edge-vend.com/assets/edgevend-hero.webp">
+  <meta property="og:image" content="https://edge-vend.com/assets/edgevend-hero.webp">
   <meta name="theme-color" content="#0b0c10">
 
   <style>
@@ -58,8 +58,7 @@
 </head>
 <body>
   <div class="hero">
-    <!-- wir setzen src per JS korrekt, egal ob Slash/Domain -->
-    <img id="hero-img" alt="EdgeVend: precision cutting tool with metal chips and logo">
+    <img src="./assets/edgevend-hero.webp" alt="EdgeVend: precision cutting tool with metal chips and logo">
     <div class="overlay" aria-hidden="true"></div>
     <div class="panel" role="region" aria-label="EdgeVend info">
       <div class="tag">Website under construction</div>
@@ -75,18 +74,7 @@
   <footer>© <span id="year"></span> EdgeVend. All rights reserved.</footer>
 
   <script>
-    // Robust asset resolver: funktioniert auf github.io (Project Page) und Custom Domain,
-    // mit und ohne trailing slash.
-    (function(){
-      var onGh = location.hostname.endsWith('github.io');
-      var base = onGh ? '/edge-vend.com/' : '/';
-      function asset(p){ return base + p.replace(/^\\//,''); }
-
-      var hero = document.getElementById('hero-img');
-      hero.src = asset('assets/edgevend-hero.webp');
-
-      document.getElementById('year').textContent = new Date().getFullYear();
-    })();
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
