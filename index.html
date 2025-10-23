@@ -77,17 +77,16 @@
     @media (max-width:720px){
       .panel{position:static; margin: -100px 12px 0; border-radius:0 0 22px 22px}
     }
+
+    /* Kleine Footer-Links */
+    .legal-links { margin-top:8px; font-size:.8rem; }
+    .legal-links a { color:var(--muted); text-decoration:none; }
+    .legal-links a:hover { text-decoration:underline; }
   </style>
 
-  <!-- ✅ Google Analytics 4 (GA4) Tag -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FXGEPGPRW"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6FXGEPGPRW');
-  </script>
-  <!-- ✅ GA4 Ende -->
+  <!-- ✅ CookieConsent CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+  <!-- ⚠️ Kein GA-Code mehr im <head> – GA wird erst nach Zustimmung geladen -->
 </head>
 <body>
   <main class="hero" role="main" aria-label="EdgeVend under construction">
@@ -105,7 +104,11 @@
     </section>
   </main>
 
-  <footer>© <span id="y"></span> EdgeVend. All rights reserved.</footer>
+  <footer>© <span id="y"></span> EdgeVend. All rights reserved.
+    <div class="legal-links">
+      <a href="/imprint.html">Impressum</a> · <a href="/privacy.html">Datenschutz</a>
+    </div>
+  </footer>
 
   <script>
     (function(){
@@ -133,6 +136,49 @@
       }
       tryNext(0);
     })();
+  </script>
+
+  <!-- ✅ CookieConsent JS + Initialisierung (Opt-in) -->
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+  <script>
+    // GA4 nur nach Zustimmung laden
+    function loadAnalytics(){
+      // gtag.js laden
+      var s1 = document.createElement('script');
+      s1.async = true;
+      s1.src = "https://www.googletagmanager.com/gtag/js?id=G-6FXGEPGPRW";
+      document.head.appendChild(s1);
+
+      // Grundkonfiguration
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // IP-Anonymisierung aktivieren
+      gtag('config', 'G-6FXGEPGPRW', { 'anonymize_ip': true });
+    }
+
+    window.cookieconsent.initialise({
+      palette: {
+        popup: { background: "#0f1218", text: "#ffffff" },
+        button: { background: "#4fc3f7", text: "#000000" }
+      },
+      theme: "edgeless",
+      type: "opt-in",
+      content: {
+        message: "Diese Website verwendet Cookies für Analysezwecke.",
+        dismiss: "Ablehnen",
+        allow: "Akzeptieren",
+        link: "Mehr erfahren",
+        href: "/privacy.html"
+      },
+      onInitialise: function (status) {
+        if (this.hasConsented()) { loadAnalytics(); }
+      },
+      onStatusChange: function (status) {
+        if (this.hasConsented()) { loadAnalytics(); }
+      }
+    });
   </script>
 
   <noscript>
