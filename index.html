@@ -37,11 +37,10 @@
       background: var(--panel);
     }
 
-    /* Bild als <img> damit SEO/alt funktioniert */
     .hero > img{
       display:block; width:100%; height:auto;
       filter:saturate(1) contrast(1.05) brightness(1.02);
-      background:linear-gradient(180deg,#0f1218,#0b0c10); /* hübscher Fallback */
+      background:linear-gradient(180deg,#0f1218,#0b0c10);
     }
 
     .overlay{
@@ -79,6 +78,16 @@
       .panel{position:static; margin: -100px 12px 0; border-radius:0 0 22px 22px}
     }
   </style>
+
+  <!-- ✅ Google Analytics 4 (GA4) Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FXGEPGPRW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6FXGEPGPRW');
+  </script>
+  <!-- ✅ GA4 Ende -->
 </head>
 <body>
   <main class="hero" role="main" aria-label="EdgeVend under construction">
@@ -99,31 +108,26 @@
   <footer>© <span id="y"></span> EdgeVend. All rights reserved.</footer>
 
   <script>
-    // Mehrstufiges, cache-busting Fallback-Loading für das Hero-Bild
     (function(){
       document.getElementById('y').textContent = new Date().getFullYear();
-      const v = Date.now(); // Cache-Buster
+      const v = Date.now();
       const origin = location.origin.replace(/\/$/, '');
       const onGh = location.hostname.endsWith('github.io');
 
       const candidates = [
-        // 1) Absolute GitHub-Projekt-URL (funktioniert immer, wenn Repo public ist)
         'https://edgevend1.github.io/edge-vend.com/assets/edgevend-hero.webp',
-        // 2) Custom-Domain-Variante (wenn /assets im Root liegt)
         origin + '/assets/edgevend-hero.webp',
-        // 3) Relative Pfade
         'assets/edgevend-hero.webp',
         './assets/edgevend-hero.webp',
         '/edgevend-hero.webp',
         'edgevend-hero.webp',
-        // 4) Falls Project Page ohne Slash geladen wurde, konstruiere den Pfad
         (onGh ? '/edge-vend.com/assets/edgevend-hero.webp' : '/assets/edgevend-hero.webp')
       ];
 
       const img = document.getElementById('hero-img');
 
       function tryNext(i){
-        if (i >= candidates.length) return; // Fallback-Hintergrund bleibt
+        if (i >= candidates.length) return;
         img.src = candidates[i] + (candidates[i].includes('?') ? '&' : '?') + 'v=' + v;
         img.onerror = function(){ tryNext(i+1); };
       }
