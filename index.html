@@ -142,51 +142,85 @@
     })();
   </script>
 
-  <!-- ✅ CookieConsent JS + Initialisierung (Opt-in) -->
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-  <script>
-    // GA4 nur nach Zustimmung laden
-    function loadAnalytics(){
-      // gtag.js laden
-      var s1 = document.createElement('script');
-      s1.async = true;
-      s1.src = "https://www.googletagmanager.com/gtag/js?id=G-6FXGEPGPRW";
-      document.head.appendChild(s1);
+<!-- ✅ CookieConsent JS + Custom Styling -->
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+<script>
+window.cookieconsent.initialise({
+  palette: {
+    popup: { background: "rgba(15, 18, 24, 0.8)", text: "#eaf0f6" },
+    button: { background: "#4fc3f7", text: "#000000" }
+  },
+  theme: "classic", /* Standardform wird komplett mit CSS überschrieben */
+  type: "opt-in",
+  position: "bottom-center",
+  content: {
+    message: "Wir verwenden Cookies, um unsere Website zu verbessern.",
+    dismiss: "Ablehnen",
+    allow: "Akzeptieren",
+    link: "Datenschutz",
+    href: "/privacy.html"
+  },
+  onStatusChange: function(status) {
+    if (this.hasConsented()) loadAnalytics();
+  },
+  onInitialise: function(status) {
+    if (this.hasConsented()) loadAnalytics();
+  }
+});
+</script>
 
-      // Grundkonfiguration
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<style>
+/* ✅ Moderner Look passend zu EdgeVend */
+.cc-window {
+  border-radius: 16px !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  max-width: clamp(280px, 90vw, 480px);
+  padding: 18px 24px !important;
+  font-size: 14px;
+}
 
-      // IP-Anonymisierung aktivieren
-      gtag('config', 'G-6FXGEPGPRW', { 'anonymize_ip': true });
-    }
+/* Buttons */
+.cc-btn {
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  font-weight: 500;
+  transition: all .2s ease;
+}
 
-    window.cookieconsent.initialise({
-      palette: {
-        popup: { background: "#0f1218", text: "#ffffff" },
-        button: { background: "#4fc3f7", text: "#000000" }
-      },
-      theme: "edgeless",
-      type: "opt-in",
-      content: {
-        message: "Diese Website verwendet Cookies für Analysezwecke.",
-        dismiss: "Ablehnen",
-        allow: "Akzeptieren",
-        link: "Mehr erfahren",
-        href: "/privacy.html"
-      },
-      onInitialise: function (status) {
-        if (this.hasConsented()) { loadAnalytics(); }
-      },
-      onStatusChange: function (status) {
-        if (this.hasConsented()) { loadAnalytics(); }
-      }
-    });
-  </script>
+/* Akzeptieren-Button (hell / Akzent) */
+.cc-btn.cc-allow {
+  background: #4fc3f7 !important;
+  color: #000 !important;
+  border: none !important;
+}
+.cc-btn.cc-allow:hover {
+  box-shadow: 0 0 0 3px rgba(79,195,247,0.4);
+}
 
-  <noscript>
-    <style>.hero{background:#0f1218}</style>
-  </noscript>
-</body>
-</html>
+/* Ablehnen-Button (dunkel, dezent) */
+.cc-btn.cc-dismiss {
+  background: transparent !important;
+  color: #eaf0f6 !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+}
+.cc-btn.cc-dismiss:hover {
+  background: rgba(255,255,255,0.05) !important;
+}
+
+/* Datenschutz-Link */
+.cc-link {
+  color: #4fc3f7 !important;
+  text-decoration: none;
+}
+.cc-link:hover {
+  text-decoration: underline;
+}
+
+/* Position optimieren */
+.cc-bottom.cc-center {
+  bottom: 20px;
+}
+</style>
+
